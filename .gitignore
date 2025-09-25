@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+.vscode/
+logs/
+*.log
+*.user
+*.suo
+*.dbmdl
+*.mdf
+*.ldf
+appsettings.Development.json
