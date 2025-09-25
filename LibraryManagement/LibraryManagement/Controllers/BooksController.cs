@@ -16,7 +16,7 @@ namespace LibraryManagement.Controllers
             _BooksRepository = booksRepository;
         }
 
-        [HttpGet("GetAllBooks")]
+        [HttpGet("GetAllBooks")] 
         public async Task<IActionResult> GetAllBooksAsync()
         {
             var data = await _BooksRepository.GetAllBooksAsync();
@@ -26,8 +26,6 @@ namespace LibraryManagement.Controllers
         [HttpPost("AddBooks")]
         public async Task<IActionResult> AddBooksAsync([FromBody] Books book)
         {
-           
-
             var result = await _BooksRepository.AddBookAsync(book);
 
             if (result >= 0)
@@ -39,6 +37,23 @@ namespace LibraryManagement.Controllers
                 return BadRequest("Failed to add the book!");
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBookAsync(long id, [FromBody] Books book)
+        {
+            var result = await _BooksRepository.UpdateBookAsync(id, book);
+            return result > 0 ? Ok("Book updated successfully.") : NotFound("Book not found.");
+        }
+
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBookAsync(long id)
+        {
+            var result = await _BooksRepository.DeleteBookAsync(id);
+            return result > 0 ? Ok("Book deleted successfully.") : NotFound("Book not found.");
+        }
+
 
 
     }

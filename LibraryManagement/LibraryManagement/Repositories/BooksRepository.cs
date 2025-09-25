@@ -5,14 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using LibraryManagement.Api.Model;
-using static System.Net.Mime.MediaTypeNames;
-
 
 namespace LibraryManagement.Repositories
 {
     public class BooksRepository
     {
-        public readonly IDbConnection _connection;
+        private readonly IDbConnection _connection;
 
         public BooksRepository(IDbConnection connection)
         {
@@ -21,35 +19,56 @@ namespace LibraryManagement.Repositories
 
         public async Task<List<Books>> GetAllBooksAsync()
         {
-            var sql = @"SELECT * FROM Books";
-
-            //if (_connection.State != ConnectionState.Open)
-             _connection.Open();
-
-            var data = await _connection.QueryAsync<Books>(sql);
-
+            _connection.Open();
+            var data = await _connection.QueryAsync<Books>("SELECT * FROM Books");
             _connection.Close();
             return data.ToList();
         }
 
+       
         public async Task<int> AddBookAsync(Books book)
         {
             var sql = @"INSERT INTO Books (Title, Author, TotalCopies, AvailableCopies)
-                VALUES ( @Title, @Author, @TotalCopies, @AvailableCopies)";
+                        VALUES (@Title, @Author, @TotalCopies, @AvailableCopies)";
+            _connection.Open();
+            var result = await _connection.ExecuteAsync(sql, book);
+            _connection.Close();
+            return result;
+        }
+
+        
+        public async Task<int> DeleteBookAsync(long id)
+        {
+            var sql = "DELETE FROM Books WHERE BookId = @Id";
+            _connection.Open();
+            var result = await _connection.ExecuteAsync(sql, new { Id = id });
+            _connection.Close();
+            return result;
+        }
+
+       
+        public async Task<int> UpdateBookAsync(long id, Books book)
+        {
+            var sql = @"UPDATE Books 
+                        SET Title = @Title, 
+                            Author = @Author, 
+                            TotalCopies = @TotalCopies, 
+                            AvailableCopies = @AvailableCopies
+                        WHERE BookId = @Id";
 
             _connection.Open();
-
-            var data = await _connection.ExecuteAsync(sql, new
+            var result = await _connection.ExecuteAsync(sql, new
             {
-                @Title = book.Title,
-                @Author = book.Author,
-                @TotalCopies = book.TotalCopies,
-                @AvailableCopies = book.AvailableCopies
-
-            }); 
+                Id = id,
+                book.Title,
+                book.Author,
+                book.TotalCopies,
+                book.AvailableCopies
+            });
             _connection.Close();
 
-            return data ;
+            return result;
         }
+
     }
 }
