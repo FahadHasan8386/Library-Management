@@ -38,7 +38,7 @@ namespace LibraryManagement.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("UpdateBook/{id}")]
         public async Task<IActionResult> UpdateBookAsync(long id, [FromBody] Books book)
         {
             var result = await _BooksRepository.UpdateBookAsync(id, book);
@@ -47,12 +47,13 @@ namespace LibraryManagement.Controllers
 
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteBook/{id}")]
         public async Task<IActionResult> DeleteBookAsync(long id)
         {
             var result = await _BooksRepository.DeleteBookAsync(id);
             return result > 0 ? Ok("Book deleted successfully.") : NotFound("Book not found.");
         }
+
 
 
 

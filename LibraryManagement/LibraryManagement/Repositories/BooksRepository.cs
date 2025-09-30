@@ -39,7 +39,7 @@ namespace LibraryManagement.Repositories
         
         public async Task<int> DeleteBookAsync(long id)
         {
-            var sql = "DELETE FROM Books WHERE BookId = @Id";
+            var sql = @"DELETE FROM Books WHERE BookId = @Id";
             _connection.Open();
             var result = await _connection.ExecuteAsync(sql, new { Id = id });
             _connection.Close();
