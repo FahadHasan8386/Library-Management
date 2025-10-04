@@ -141,7 +141,6 @@
             this.Name = "FormAddBook";
             this.ShowIcon = false;
             this.Text = "Add Books";
-            this.Load += new System.EventHandler(this.FormAddBook_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,6 +1,7 @@
-
-
-using LibraryManagement.Repositories;
+using LM.Api.Repositories;
+using LM.Api.Repositories.Interfaces;
+using LM.Api.Services;
+using LM.Api.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,11 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<System.Data.IDbConnection>(sp =>
    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<BooksRepository>();
+// Service register
+builder.Services.AddScoped<IBookService, BookService>();
+
+// Repository register
+builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 
 var app = builder.Build();
 

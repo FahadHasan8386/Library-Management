@@ -46,9 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormAddBook.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="FormAddBook.cs" />
     <Compile Include="FormAddBook.Designer.cs">
       <DependentUpon>FormAddBook.cs</DependentUpon>
     </Compile>
@@ -78,6 +76,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LM.Shared\LM.Shared.csproj">
+      <Project>{2908352a-7a3e-46a4-b9f4-9b2d7cfd7d56}</Project>
+      <Name>LM.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
